@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLI - Ethical Hacking KB</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="terminal-overlay"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="prompt-symbol">></span>_ethical_hacking_kb
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">~/home</a></li>
+                <li><a href="cli.html" class="nav-link active">~/cli</a></li>
+                <li><a href="ssh.html" class="nav-link">~/ssh</a></li>
+                <li><a href="nmap.html" class="nav-link">~/nmap</a></li>
+                <li><a href="wireshark.html" class="nav-link">~/wireshark</a></li>
+                <li><a href="hydra.html" class="nav-link">~/hydra</a></li>
+                <li><a href="bruteforce.html" class="nav-link">~/bruteforce</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                <span class="toggle-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1><span class="prompt-symbol">$</span> cli <span class="header-dash">—</span> command-line interface</h1>
+            <p class="page-description">The text-based interface where power users and security professionals live</p>
+        </div>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What is the CLI?</h2>
+            
+            <div class="definition-box">
+                <p>The Command-Line Interface is a way of interacting with a computer entirely through text commands. Instead of clicking icons and navigating menus with a mouse, you type instructions and the computer responds with text output.</p>
+                
+                <p>When I first started using computers, I thought the terminal was something only programmers needed. But after running my first few commands in lab, I understood: the GUI (Graphical User Interface) is like ordering from a restaurant menu with pictures—it's friendly and approachable, but you're limited to what's on the menu. The CLI is like being handed the keys to the kitchen. You can combine ingredients in ways the menu designer never imagined.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>Graphical Interface (GUI)</h3>
+                    <ul>
+                        <li>Visual—you see folders and icons</li>
+                        <li>Easy to learn initially</li>
+                        <li>Limited to features with buttons</li>
+                        <li>Harder to automate repetitive tasks</li>
+                        <li>Uses more system resources</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card">
+                    <h3>Command-Line Interface (CLI)</h3>
+                    <ul>
+                        <li>Text-based—you type what you want</li>
+                        <li>Steeper initial learning curve</li>
+                        <li>Access to all system capabilities</li>
+                        <li>Easy to script and automate</li>
+                        <li>Minimal resource usage</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Why Security Professionals Live in the Terminal</h2>
+            
+            <div class="info-block">
+                <p>In the security labs, I noticed something: none of the serious tools had pretty graphical interfaces. Nmap, Hydra, SSH—all command-line tools. There are solid reasons for this:</p>
+                
+                <ul class="feature-list">
+                    <li><strong>Speed:</strong> Typing <code>nmap -sV 192.168.1.0/24</code> is faster than clicking through a GUI wizard. When you're scanning hundreds of hosts, those seconds add up.</li>
+                    <li><strong>Precision:</strong> Command-line tools expose every option and flag. A GUI often hides advanced features behind layers of menus—or omits them entirely.</li>
+                    <li><strong>Scripting and Automation:</strong> I can write a bash script that runs nmap, processes the output with grep, and emails me a report. Try automating a GUI application—it's possible but painful.</li>
+                    <li><strong>Remote Access:</strong> When I SSH into a server, I don't get a desktop. I get a terminal. Being comfortable at the command line means I can work on any system, anywhere, over even a slow connection.</li>
+                    <li><strong>Tool Chaining:</strong> The Unix philosophy is "do one thing well." Command-line tools can be connected with pipes (<code>|</code>), letting you build complex workflows from simple pieces. Want to find all open SSH ports from an nmap scan and save them to a file? That's one line of commands piped together.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Command from Lab: Finding the Raspberry Pi</h2>
+            
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <span class="terminal-title">student@kali:~/labs</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">$</span> 
+                        <span class="command-text">cd /etc && ls -la | head -20</span>
+                    </div>
+                    <div class="command-output">
+total 872<br>
+drwxr-xr-x 141 root root  12288 Dec 10 14:23 <span class="output-highlight">.</span><br>
+drwxr-xr-x  18 root root   4096 Oct 15 09:12 <span class="output-highlight">..</span><br>
+-rw-r--r--   1 root root   2981 Oct 15 09:14 adduser.conf<br>
+drwxr-xr-x   2 root root   4096 Dec 10 14:23 alternatives<br>
+drwxr-xr-x   8 root root   4096 Oct 15 09:18 apache2<br>
+drwxr-xr-x   3 root root   4096 Oct 15 09:14 apparmor.d<br>
+drwxr-xr-x   6 root root   4096 Oct 15 09:18 apt<br>
+-rw-r--r--   1 root root   2319 Apr  8  2022 bash.bashrc<br>
+drwxr-xr-x   2 root root   4096 Dec  9 18:45 bin -> usr/bin<br>
+drwxr-xr-x   4 root root   4096 Oct 15 09:16 ca-certificates<br>
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h4>Breaking Down What I Ran</h4>
+                <ul class="command-breakdown">
+                    <li><code>cd /etc</code> — Changed my current directory to <code>/etc</code>, which is where Linux stores system-wide configuration files. This is a goldmine for security testing because it contains settings for services, user accounts, and startup processes.</li>
+                    <li><code>&&</code> — This operator says "if the first command succeeds, run the second one." It's a simple way to chain commands.</li>
+                    <li><code>ls -la</code> — List all files and directories with detailed information. The <code>-l</code> flag shows permissions, ownership, size, and modification time. The <code>-a</code> flag shows hidden files (those starting with a dot).</li>
+                    <li><code>| head -20</code> — The pipe takes the output from <code>ls</code> and feeds it into <code>head</code>, which shows only the first 20 lines. Without this, the output would flood my screen—<code>/etc</code> has hundreds of files.</li>
+                </ul>
+                
+                <p><strong>Why this matters in ethical hacking:</strong> During a penetration test, moving through the filesystem quietly and efficiently is essential. The CLI lets me navigate directories, read configuration files, and gather information without leaving obvious traces that a GUI file manager would. Looking at <code>/etc</code> tells me what services are installed, what users exist (<code>/etc/passwd</code>), and how the system is configured—all without triggering alerts that a graphical tool might cause.</p>
+            </div>
+        </section>
+
+        <div class="interactive-section">
+            <h3><span class="section-marker">></span> Try It: Command Explorer</h3>
+            <p>Select a command to see what it does in plain English:</p>
+            
+            <div class="command-builder">
+                <select id="commandSelect" class="command-select">
+                    <option value="ls">ls</option>
+                    <option value="ls -la">ls -la</option>
+                    <option value="cd /var/log">cd /var/log</option>
+                    <option value="cat /etc/passwd">cat /etc/passwd</option>
+                    <option value="grep -r 'password' .">grep -r 'password' .</option>
+                    <option value="ps aux">ps aux</option>
+                </select>
+                <div id="commandExplanation" class="command-explanation">
+                    Lists files and directories in the current folder.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p><span class="prompt-symbol">$</span> Built as a portfolio project • All content written from personal understanding and lab experience</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
