@@ -126,4 +126,94 @@
                 </div>
                 <div class="terminal-body">
                     <div class="command-line">
-                        <span class="prompt">$</span>
+                        <span class="prompt">$</span> 
+                        <span class="command-text">nmap -sV 192.168.1.0/24</span>
+                    </div>
+                    <div class="command-output">
+Starting Nmap 7.94 ( https://nmap.org ) at 2025-12-15 10:47 EST<br>
+Nmap scan report for 192.168.1.1<br>
+Host is up (0.0032s latency).<br>
+Not shown: 995 closed tcp ports (reset)<br>
+PORT     STATE SERVICE    VERSION<br>
+53/tcp   open  domain     dnsmasq 2.85<br>
+80/tcp   open  http       nginx 1.18.0<br>
+443/tcp  open  ssl/http   nginx 1.18.0<br>
+<br>
+Nmap scan report for <span class="output-highlight">192.168.1.100</span><br>
+Host is up (0.0047s latency).<br>
+Not shown: 997 closed tcp ports (reset)<br>
+PORT     STATE SERVICE VERSION<br>
+<span class="output-highlight">22/tcp   open  ssh     OpenSSH 8.4 (protocol 2.0)</span><br>
+80/tcp   open  http    Apache httpd 2.4.51<br>
+3306/tcp open  mysql   MySQL 5.7.36<br>
+<br>
+Nmap scan report for 192.168.1.50 (this machine)<br>
+Host is up (0.0002s latency).<br>
+<br>
+Nmap done: 256 IP addresses (3 hosts up) scanned in 28.43 seconds
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h4>Interpreting the Results</h4>
+                <ul class="command-breakdown">
+                    <li><code>nmap</code> — Invokes the network mapping tool.</li>
+                    <li><code>-sV</code> — The "service version" flag. Instead of just telling me a port is open, Nmap probes it to identify exactly what software is listening and what version it's running. This is crucial because specific software versions have known vulnerabilities.</li>
+                    <li><code>192.168.1.0/24</code> — The target range. The "/24" means "scan all 256 possible IP addresses from 192.168.1.0 to 192.168.1.255."</li>
+                </ul>
+                
+                <h4>What These Results Tell Me as a Security Tester</h4>
+                <ul class="finding-list">
+                    <li><strong>Finding #1: The Router (192.168.1.1)</strong> — Running DNS and a web interface. The nginx version is somewhat old, which I'd note for further investigation.</li>
+                    <li><strong>Finding #2: The Target (192.168.1.100)</strong> — This is the Raspberry Pi I was looking for. The open ports tell a story:
+                        <ul>
+                            <li><strong>Port 22 (SSH):</strong> I can connect remotely. If default credentials are still in use, this is an entry point.</li>
+                            <li><strong>Port 80 (HTTP):</strong> There's a web server running. I should check what's being served—it might have vulnerable applications.</li>
+                            <li><strong>Port 3306 (MySQL):</strong> A database is exposed on the network. <strong>This is a significant finding.</strong> Databases should generally not be accessible from other machines on the network unless absolutely necessary. An exposed MySQL port could allow an attacker to attempt credential brute-forcing or exploit known vulnerabilities in that MySQL version.</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <p><strong>What I did with this information in lab:</strong> The open SSH port led me to try connecting with <code>ssh student@192.168.1.100</code>, which worked because default credentials were in use. The open MySQL port was a finding I documented in my lab report as a hardening recommendation—that service should be bound to localhost only, not exposed to the entire network.</p>
+            </div>
+        </section>
+
+        <div class="interactive-section">
+            <h3><span class="section-marker">></span> Nmap Flag Explorer</h3>
+            <p>Select flags to build an Nmap command and see what it does:</p>
+            
+            <div class="command-builder">
+                <div class="flag-selector">
+                    <label class="flag-option">
+                        <input type="checkbox" value="-sS" class="flag-checkbox"> -sS (SYN scan - default, stealthy)
+                    </label>
+                    <label class="flag-option">
+                        <input type="checkbox" value="-sV" class="flag-checkbox" checked> -sV (Version detection)
+                    </label>
+                    <label class="flag-option">
+                        <input type="checkbox" value="-p 1-1000" class="flag-checkbox"> -p 1-1000 (Scan specific ports)
+                    </label>
+                    <label class="flag-option">
+                        <input type="checkbox" value="-A" class="flag-checkbox"> -A (Aggressive scan - OS, version, scripts)
+                    </label>
+                </div>
+                
+                <div class="generated-command">
+                    <span class="prompt">$</span> nmap <span id="generatedFlags">-sV</span> 192.168.1.0/24
+                </div>
+                
+                <div id="flagExplanation" class="command-explanation">
+                    <strong>-sV:</strong> Probes open ports to determine service/version info. Essential for identifying vulnerable software.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p><span class="prompt-symbol">$</span> Built as a portfolio project • All content written from personal understanding and lab experience</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
