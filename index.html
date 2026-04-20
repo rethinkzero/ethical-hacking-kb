@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethical Hacking Knowledge Repository</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="terminal-overlay"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="prompt-symbol">></span>_ethical_hacking_kb
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">~/home</a></li>
+                <li><a href="cli.html" class="nav-link">~/cli</a></li>
+                <li><a href="ssh.html" class="nav-link">~/ssh</a></li>
+                <li><a href="nmap.html" class="nav-link">~/nmap</a></li>
+                <li><a href="wireshark.html" class="nav-link">~/wireshark</a></li>
+                <li><a href="hydra.html" class="nav-link">~/hydra</a></li>
+                <li><a href="bruteforce.html" class="nav-link">~/bruteforce</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                <span class="toggle-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="typewriter-container">
+                <h1 class="typewriter" id="typewriterText"></h1>
+                <span class="cursor">█</span>
+            </div>
+            <p class="hero-subtitle">A personal reference guide for security professionals</p>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What is Ethical Hacking?</h2>
+            
+            <div class="definition-box">
+                <p>Ethical hacking is the practice of intentionally probing computer systems, networks, and applications to find security weaknesses—but with something that makes all the difference: <strong>explicit permission from the owner</strong>.</p>
+                
+                <p>Think of it like this: a security company hires someone to test their bank vault by actually trying to break in. The tester uses the same tools and techniques as real criminals would—drills, lockpicks, whatever works. But here's the key difference: <strong>they have a signed contract giving them permission to try</strong>. When they find a weakness, they don't steal anything. They write a report explaining how they got in and how to fix it.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card ethical">
+                    <h3>✓ Ethical Hacking</h3>
+                    <ul>
+                        <li>Written authorization signed by the system owner</li>
+                        <li>Clearly defined scope—what you can and cannot test</li>
+                        <li>Goal: Find weaknesses so they can be fixed</li>
+                        <li>Results in a detailed report, not stolen data</li>
+                        <li>Legal and professional</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card illegal">
+                    <h3>✗ Illegal Hacking</h3>
+                    <ul>
+                        <li>No permission—often no one knows you're there</li>
+                        <li>No boundaries—the attacker goes wherever they can</li>
+                        <li>Goal: Steal data, cause damage, or demand ransom</li>
+                        <li>Results in stolen information, financial loss, and legal consequences</li>
+                        <li>Criminal activity punishable by law</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-block">
+                <h3><span class="section-marker">></span> Why Organizations Hire Ethical Hackers</h3>
+                <p>Companies bring in ethical hackers because they understand a fundamental truth about security: <strong>you can't defend against what you don't know exists</strong>. An internal IT team knows their systems intimately, but they also have blind spots. They know how things are <em>supposed</em> to work. An ethical hacker approaches with fresh eyes and asks the dangerous questions:</p>
+                
+                <ul class="feature-list">
+                    <li><strong>Penetration Testing:</strong> Simulating real attacks to see what an actual criminal could access</li>
+                    <li><strong>Vulnerability Assessment:</strong> Systematically scanning for known weaknesses in software and configurations</li>
+                    <li><strong>Security Auditing:</strong> Reviewing policies, procedures, and technical controls against best practices</li>
+                    <li><strong>Red Team Exercises:</strong> Full-scale simulated attacks that test not just technology but also the human and process elements of security</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <p><span class="accent">⟡</span> <strong>The authorization distinction isn't just paperwork—it's the entire ethical foundation of this field.</strong> The same Nmap scan that's a crime at 2 AM on a network you don't own becomes professional security testing when you have a signed scope document and a scheduled testing window.</p>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Navigating This Knowledge Base</h2>
+            
+            <div class="nav-grid">
+                <a href="cli.html" class="nav-card">
+                    <span class="nav-card-icon">⌨️</span>
+                    <h3>CLI</h3>
+                    <p>The command-line interface—where real security work happens</p>
+                </a>
+                <a href="ssh.html" class="nav-card">
+                    <span class="nav-card-icon">🔐</span>
+                    <h3>SSH</h3>
+                    <p>Secure Shell for encrypted remote access</p>
+                </a>
+                <a href="nmap.html" class="nav-card">
+                    <span class="nav-card-icon">🗺️</span>
+                    <h3>Nmap</h3>
+                    <p>Network mapping and port scanning</p>
+                </a>
+                <a href="wireshark.html" class="nav-card">
+                    <span class="nav-card-icon">🦈</span>
+                    <h3>Wireshark</h3>
+                    <p>Packet analysis—seeing what travels across the wire</p>
+                </a>
+                <a href="hydra.html" class="nav-card">
+                    <span class="nav-card-icon">🐉</span>
+                    <h3>Hydra</h3>
+                    <p>Credential brute-force testing tool</p>
+                </a>
+                <a href="bruteforce.html" class="nav-card">
+                    <span class="nav-card-icon">🔓</span>
+                    <h3>Brute-Force</h3>
+                    <p>Understanding the attack methodology</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p><span class="prompt-symbol">$</span> Built as a portfolio project • All content written from personal understanding and lab experience</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
