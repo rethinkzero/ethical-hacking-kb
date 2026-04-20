@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH - Ethical Hacking KB</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="terminal-overlay"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="prompt-symbol">></span>_ethical_hacking_kb
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">~/home</a></li>
+                <li><a href="cli.html" class="nav-link">~/cli</a></li>
+                <li><a href="ssh.html" class="nav-link active">~/ssh</a></li>
+                <li><a href="nmap.html" class="nav-link">~/nmap</a></li>
+                <li><a href="wireshark.html" class="nav-link">~/wireshark</a></li>
+                <li><a href="hydra.html" class="nav-link">~/hydra</a></li>
+                <li><a href="bruteforce.html" class="nav-link">~/bruteforce</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                <span class="toggle-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1><span class="prompt-symbol">$</span> ssh <span class="header-dash">—</span> secure shell</h1>
+            <p class="page-description">Encrypted remote access that replaced dangerous clear-text protocols</p>
+        </div>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What SSH Does and the Problem It Solved</h2>
+            
+            <div class="definition-box">
+                <p>SSH creates an encrypted tunnel between two computers, allowing you to securely log into a remote system and execute commands as if you were sitting at its keyboard. Everything you type and everything the remote system sends back is scrambled in transit—anyone intercepting the traffic sees only meaningless encrypted data.</p>
+                
+                <p>Before SSH existed, administrators used Telnet and rlogin for remote access. These tools sent everything in plain text, including usernames and passwords. On an unswitched network (common in the 90s), any machine could see all the traffic. A single compromised computer or a packet sniffer on the network meant every login credential was exposed. SSH was created in 1995 specifically to address this devastating security flaw.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card dangerous">
+                    <h3>Telnet (Legacy, Insecure)</h3>
+                    <ul>
+                        <li>No encryption—passwords sent in plain text</li>
+                        <li>No verification of server identity</li>
+                        <li>Vulnerable to packet sniffing</li>
+                        <li>Should never be used on modern networks</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card ethical">
+                    <h3>SSH (Modern, Secure)</h3>
+                    <ul>
+                        <li>End-to-end encryption</li>
+                        <li>Server authentication via host keys</li>
+                        <li>Optional public key authentication (no passwords)</li>
+                        <li>Can tunnel other protocols securely</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What You Can Do Over an SSH Connection</h2>
+            
+            <div class="info-block">
+                <p>Once I've established an SSH connection to a remote system, I have the same capabilities I'd have sitting at that machine's physical terminal. In the context of ethical hacking and system administration, this includes:</p>
+                
+                <ul class="feature-list">
+                    <li><strong>Execute commands remotely:</strong> Run any command the remote system allows, from checking system status with <code>top</code> to editing configuration files with <code>nano</code>.</li>
+                    <li><strong>Transfer files securely:</strong> Using SCP (Secure Copy) or SFTP (SSH File Transfer Protocol), which run over the same encrypted connection.</li>
+                    <li><strong>Forward ports (tunneling):</strong> Redirect traffic from a local port through the SSH connection to a remote network—useful for accessing services behind firewalls.</li>
+                    <li><strong>Execute graphical applications:</strong> With X11 forwarding, I can run a GUI application on the remote server and have it display on my local machine.</li>
+                    <li><strong>Mount remote directories:</strong> Using SSHFS, I can treat a remote directory as if it were a local drive.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> The Lab Command: Connecting to the Raspberry Pi</h2>
+            
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <span class="terminal-title">student@kali:~</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">$</span> 
+                        <span class="command-text">ssh student@192.168.1.100</span>
+                    </div>
+                    <div class="command-output">
+The authenticity of host '192.168.1.100 (192.168.1.100)' can't be established.<br>
+ECDSA key fingerprint is SHA256:7xKp2M3nQ9rL5vW8yZ1aB4cD6eF0gH2iJ4kL6mN8oP.<br>
+Are you sure you want to continue connecting (yes/no/[fingerprint])? <span class="user-input">yes</span><br>
+Warning: Permanently added '192.168.1.100' (ECDSA) to the list of known hosts.<br>
+student@192.168.1.100's password: <span class="user-input">********</span><br>
+<br>
+<span class="output-highlight">Linux raspberrypi 5.10.103-v7l+ #1529 SMP Tue Mar 8 12:24:00 GMT 2022 armv7l</span><br>
+<br>
+Last login: Mon Dec 15 09:23:42 2025 from 192.168.1.50<br>
+student@raspberrypi:~ $
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h4>Command Anatomy: Breaking Down Every Part</h4>
+                <table class="command-anatomy">
+                    <tr>
+                        <td class="command-part"><code>ssh</code></td>
+                        <td>The command that invokes the OpenSSH client. This is the program that initiates the connection.</td>
+                    </tr>
+                    <tr>
+                        <td class="command-part"><code>student</code></td>
+                        <td>The username I'm trying to log in as on the remote system. The Raspberry Pi was configured with a "student" account during lab setup.</td>
+                    </tr>
+                    <tr>
+                        <td class="command-part"><code>@</code></td>
+                        <td>A separator symbol. Everything before it is the username; everything after it is the host address.</td>
+                    </tr>
+                    <tr>
+                        <td class="command-part"><code>192.168.1.100</code></td>
+                        <td>The IP address of the remote system. I found this earlier in the lab using <code>nmap</code> to scan the local network for the Raspberry Pi.</td>
+                    </tr>
+                </table>
+                
+                <h4>What Happened After I Pressed Enter</h4>
+                <ol class="process-list">
+                    <li><strong>Host key verification:</strong> SSH asked if I trusted this server's fingerprint. This prevents "man-in-the-middle" attacks where someone intercepts my connection and pretends to be the real server. Since this was my first time connecting, I said yes, and SSH stored the fingerprint for future verification.</li>
+                    <li><strong>Password prompt:</strong> I entered the password for the student account. The characters weren't displayed as I typed—this is a security feature that prevents shoulder-surfing.</li>
+                    <li><strong>Connection established:</strong> I saw the Raspberry Pi's welcome banner showing its operating system and kernel version, then I was given a command prompt on the remote system.</li>
+                </ol>
+                
+                <p><strong>What I did next in the lab:</strong> Once connected to the Raspberry Pi, I navigated to a web directory, found a file containing grade data, and modified it to demonstrate how an attacker with SSH access could alter sensitive information. This exercise drove home why SSH credentials must be protected and why default passwords should never be left unchanged.</p>
+            </div>
+        </section>
+
+        <div class="interactive-section">
+            <h3><span class="section-marker">></span> Quick Quiz: SSH Basics</h3>
+            <div class="quiz-container" id="sshQuiz">
+                <p class="quiz-question">What is the primary security advantage of SSH over Telnet?</p>
+                <div class="quiz-options">
+                    <button class="quiz-option" data-correct="true">Encryption—all traffic is scrambled</button>
+                    <button class="quiz-option" data-correct="false">SSH is faster</button>
+                    <button class="quiz-option" data-correct="false">SSH has a graphical interface</button>
+                    <button class="quiz-option" data-correct="false">SSH works on more operating systems</button>
+                </div>
+                <div class="quiz-feedback" id="quizFeedback"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p><span class="prompt-symbol">$</span> Built as a portfolio project • All content written from personal understanding and lab experience</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
