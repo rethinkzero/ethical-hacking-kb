@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nmap - Ethical Hacking KB</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="terminal-overlay"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="prompt-symbol">></span>_ethical_hacking_kb
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">~/home</a></li>
+                <li><a href="cli.html" class="nav-link">~/cli</a></li>
+                <li><a href="ssh.html" class="nav-link">~/ssh</a></li>
+                <li><a href="nmap.html" class="nav-link active">~/nmap</a></li>
+                <li><a href="wireshark.html" class="nav-link">~/wireshark</a></li>
+                <li><a href="hydra.html" class="nav-link">~/hydra</a></li>
+                <li><a href="bruteforce.html" class="nav-link">~/bruteforce</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                <span class="toggle-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h1><span class="prompt-symbol">$</span> nmap <span class="header-dash">—</span> network mapper</h1>
+            <p class="page-description">Discovering hosts, open ports, and running services on a network</p>
+        </div>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What is Network Scanning?</h2>
+            
+            <div class="definition-box">
+                <p>Nmap is the go-to tool for figuring out what's actually on a network. When I run an Nmap scan, I'm essentially knocking on digital doors to see which ones answer—and more importantly, what they tell me when they do.</p>
+                
+                <p>Think of a network as a massive apartment building. You know the street address (the network range), but you don't know which apartments are occupied (active hosts), which have their doors open (open ports), or what's happening inside each one (running services). Nmap is the tool that lets me methodically check every apartment, see which doors are unlocked, and peek through the peephole to figure out who's home.</p>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Understanding Ports</h2>
+            
+            <div class="info-block">
+                <p>A port is a virtual doorway on a computer that a specific service listens on for incoming connections. When you browse a website, your computer connects to port 80 (HTTP) or 443 (HTTPS) on the web server. When you check email, you might connect to port 143 (IMAP) or 995 (POP3S).</p>
+                
+                <p>There are 65,535 possible TCP ports and another 65,535 UDP ports on every network-connected device. Most of them are closed—meaning no service is listening. Finding the open ones is like finding the unlocked windows in that apartment building.</p>
+                
+                <div class="port-table-wrapper">
+                    <h4>Common Ports I Look For During Scans</h4>
+                    <table class="port-table">
+                        <thead>
+                            <tr>
+                                <th>Port</th>
+                                <th>Protocol</th>
+                                <th>Service</th>
+                                <th>Why It Matters to a Security Tester</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>21</td>
+                                <td>TCP</td>
+                                <td>FTP</td>
+                                <td>File transfer—often misconfigured with anonymous access</td>
+                            </tr>
+                            <tr>
+                                <td>22</td>
+                                <td>TCP</td>
+                                <td>SSH</td>
+                                <td>Secure remote access—a potential entry point with weak credentials</td>
+                            </tr>
+                            <tr>
+                                <td>23</td>
+                                <td>TCP</td>
+                                <td>Telnet</td>
+                                <td>Legacy remote access—should not be open; plain-text everything</td>
+                            </tr>
+                            <tr>
+                                <td>80</td>
+                                <td>TCP</td>
+                                <td>HTTP</td>
+                                <td>Web server—potential for web application vulnerabilities</td>
+                            </tr>
+                            <tr>
+                                <td>443</td>
+                                <td>TCP</td>
+                                <td>HTTPS</td>
+                                <td>Encrypted web—still vulnerable to configuration issues</td>
+                            </tr>
+                            <tr>
+                                <td>3306</td>
+                                <td>TCP</td>
+                                <td>MySQL</td>
+                                <td>Database—should never be exposed to the internet</td>
+                            </tr>
+                            <tr>
+                                <td>3389</td>
+                                <td>TCP</td>
+                                <td>RDP</td>
+                                <td>Remote Desktop—common attack vector for ransomware</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Lab Command: Finding the Raspberry Pi</h2>
+            
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <span class="terminal-title">student@kali:~/labs</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">$</span>
