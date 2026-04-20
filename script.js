@@ -24,14 +24,14 @@ function updateToggleIcon(isLight) {
 // ===== Typewriter Effect (Homepage) =====
 const typewriterElement = document.getElementById('typewriterText');
 if (typewriterElement) {
-    const text = '>_ethical_hacking.init()';
+    const text = 'Ethical Hacking Knowledge Repository';
     let index = 0;
     
     function typeWriter() {
         if (index < text.length) {
             typewriterElement.textContent += text.charAt(index);
             index++;
-            setTimeout(typeWriter, 100);
+            setTimeout(typeWriter, 80);
         }
     }
     
