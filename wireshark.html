@@ -1,1 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireshark - Ethical Hacking KB</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="terminal-overlay"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="prompt-symbol">></span>_ethical_hacking_kb
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">~/home</a></li>
+                <li><a href="cli.html" class="nav-link">~/cli</a></li>
+                <li><a href="ssh.html" class="nav-link">~/ssh</a></li>
+                <li><a href="nmap.html" class="nav-link">~/nmap</a></li>
+                <li><a href="wireshark.html" class="nav-link active">~/wireshark</a></li>
+                <li><a href="hydra.html" class="nav-link">~/hydra</a></li>
+                <li><a href="bruteforce.html" class="nav-link">~/bruteforce</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                <span class="toggle-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
 
+    <main class="container">
+        <div class="page-header">
+            <h1><span class="prompt-symbol">$</span> wireshark <span class="header-dash">—</span> packet analyzer</h1>
+            <p class="page-description">Capturing and inspecting the raw data traveling across a network</p>
+        </div>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What is a Packet? (With an Analogy)</h2>
+            
+            <div class="definition-box">
+                <p>Every piece of information sent over a network is broken into small, manageable chunks called packets. A single webpage might be split across dozens or hundreds of packets.</p>
+                
+                <p>Here's the analogy that made packets click for me: Imagine you need to mail a 500-page book to a friend, but you can only send it using standard envelopes that each hold about 5 pages. You'd need 100 envelopes. You'd number each envelope (1/100, 2/100, etc.), write the destination address on each one, and also include a return address so your friend knows who sent it.</p>
+                
+                <p>Each envelope is a <strong>packet</strong>. The destination address is the <strong>destination IP address</strong>. The return address is the <strong>source IP address</strong>. The envelope number is the <strong>sequence number</strong> (so the receiver can put the pages back in order). And just like your friend could read the outside of the envelope without opening it, anyone on the network path can see where packets are going—and if the contents aren't sealed (unencrypted), they can read those too.</p>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What Wireshark Lets You See</h2>
+            
+            <div class="info-block">
+                <p>Wireshark is a packet capture and analysis tool. It puts your network interface into "promiscuous mode," which means it listens to <em>all</em> traffic it can see on the network segment, not just traffic addressed to your computer. Then it presents that data in a human-readable format, breaking down each packet layer by layer.</p>
+                
+                <p>During a security investigation or penetration test, Wireshark is invaluable for:</p>
+                
+                <ul class="feature-list">
+                    <li><strong>Seeing what's actually happening:</strong> Is that suspicious device really just sending DNS queries, or is it beaconing out to a command-and-control server?</li>
+                    <li><strong>Capturing credentials:</strong> Unencrypted protocols like HTTP, FTP, and Telnet transmit usernames and passwords in plain text. Wireshark shows exactly what an attacker would see.</li>
+                    <li><strong>Troubleshooting network issues:</strong> Are packets being dropped? Is there excessive retransmission? Is something flooding the network?</li>
+                    <li><strong>Analyzing malware behavior:</strong> In a controlled lab environment, security analysts run malware and capture its network traffic to understand what it's trying to do.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Real-World Example: Capturing an HTTP Login</h2>
+            
+            <div class="scenario-box">
+                <h3>Scenario: Unencrypted Website Login</h3>
+                <p>A user visits a website that uses HTTP (not HTTPS) and submits a login form. Here's what an attacker on the same network would capture with Wireshark:</p>
+            </div>
+
+            <div class="packet-capture-simulation">
+                <div class="packet-list">
+                    <div class="packet-header">
+                        <span>No.</span>
+                        <span>Time</span>
+                        <span>Source</span>
+                        <span>Destination</span>
+                        <span>Protocol</span>
+                        <span>Info</span>
+                    </div>
+                    <div class="packet-row">45 12.438921 192.168.1.50 93.184.216.34 HTTP POST /login.php HTTP/1.1</div>
+                </div>
+                
+                <div class="packet-detail">
+                    <h4>Packet Details (Frame 45)</h4>
+                    <pre class="packet-data">
+Frame 45: 542 bytes on wire (4336 bits)
+Ethernet II, Src: IntelCor_12:34:56, Dst: Cisco_ab:cd:ef
+Internet Protocol Version 4, Src: 192.168.1.50, Dst: 93.184.216.34
+Transmission Control Protocol, Src Port: 49152, Dst Port: 80
+Hypertext Transfer Protocol
+    POST /login.php HTTP/1.1\r\n
+    Host: example.com\r\n
+    Content-Type: application/x-www-form-urlencoded\r\n
+    Content-Length: 38\r\n
+    \r\n
+    [Full request URI: http://example.com/login.php]
+    [HTTP request 1/1]
+    [Response in frame: 47]
+    <span class="highlight-credential">File Data: 38 bytes</span>
+
+<span class="highlight-credential">Line-based text data: application/x-www-form-urlencoded
+username=john.doe@email.com&password=Summer2025!</span>
+                    </pre>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h4>What This Capture Reveals</h4>
+                <p>Every piece of information in the login request is visible in plain text. The attacker now has:</p>
+                <ul>
+                    <li>A valid email address (john.doe@email.com)</li>
+                    <li>A working password (Summer2025!)</li>
+                    <li>The exact login endpoint (/login.php)</li>
+                    <li>The user's IP address (192.168.1.50)</li>
+                </ul>
+                
+                <p><strong>The critical lesson:</strong> This is why HTTPS (HTTP over SSL/TLS) is non-negotiable for any site that handles sensitive information. With HTTPS, the attacker would only see that the user connected to example.com on port 443—the actual request, including the username and password, would be an encrypted blob of meaningless characters.</p>
+                
+                <p>In our lab, we captured our own traffic on the local network and saw this exact scenario play out with a deliberately insecure test website. Seeing my own password appear in Wireshark's packet details was a visceral lesson in why encryption matters.</p>
+            </div>
+        </section>
+
+        <div class="interactive-section">
+            <h3><span class="section-marker">></span> Wireshark Display Filter Cheat Sheet</h3>
+            <p>When analyzing large packet captures, display filters help you find what matters:</p>
+            
+            <div class="filter-grid">
+                <div class="filter-card">
+                    <code>http</code>
+                    <span>Show only HTTP traffic</span>
+                </div>
+                <div class="filter-card">
+                    <code>tcp.port == 22</code>
+                    <span>Show only SSH traffic (port 22)</span>
+                </div>
+                <div class="filter-card">
+                    <code>ip.src == 192.168.1.100</code>
+                    <span>Show traffic from a specific source</span>
+                </div>
+                <div class="filter-card">
+                    <code>http.request.method == "POST"</code>
+                    <span>Show only HTTP POST requests (where data is sent)</span>
+                </div>
+                <div class="filter-card">
+                    <code>dns</code>
+                    <span>Show only DNS queries</span>
+                </div>
+                <div class="filter-card">
+                    <code>tcp.flags.syn == 1 && tcp.flags.ack == 0</code>
+                    <span>Show only connection initiation attempts</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p><span class="prompt-symbol">$</span> Built as a portfolio project • All content written from personal understanding and lab experience</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
