@@ -1,1 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brute-Force Attacks - Ethical Hacking KB</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="terminal-overlay"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="prompt-symbol">></span>_ethical_hacking_kb
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">~/home</a></li>
+                <li><a href="cli.html" class="nav-link">~/cli</a></li>
+                <li><a href="ssh.html" class="nav-link">~/ssh</a></li>
+                <li><a href="nmap.html" class="nav-link">~/nmap</a></li>
+                <li><a href="wireshark.html" class="nav-link">~/wireshark</a></li>
+                <li><a href="hydra.html" class="nav-link">~/hydra</a></li>
+                <li><a href="bruteforce.html" class="nav-link active">~/bruteforce</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                <span class="toggle-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
 
+    <main class="container">
+        <div class="page-header">
+            <h1><span class="prompt-symbol">$</span> brute-force attacks <span class="header-dash">—</span> the methodology</h1>
+            <p class="page-description">Understanding the attack pattern behind tools like Hydra</p>
+        </div>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What is a Brute-Force Attack?</h2>
+            
+            <div class="definition-box">
+                <p>A brute-force attack is the digital equivalent of trying every key on a massive keyring until one opens the lock. The attacker doesn't have any special information or clever exploit—they just try every possible combination until something works.</p>
+                
+                <p>In computer security, this means systematically attempting all possible passwords, encryption keys, or other secret values until the correct one is found. The word "brute" reflects the approach: it relies on raw computational power and persistence rather than intelligence or trickery.</p>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Brute-Force vs. Dictionary Attacks</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>Pure Brute-Force</h3>
+                    <ul>
+                        <li>Tries <strong>every possible combination</strong> of characters</li>
+                        <li>Example: "a", "b", "c", ..., "aa", "ab", "ac", ...</li>
+                        <li>Theoretically guaranteed to find the password (eventually)</li>
+                        <li>Impractical for passwords longer than 8-10 characters</li>
+                        <li>Time required grows exponentially with password length</li>
+                        <li>Example scale: 8-character lowercase password = 208 billion combinations</li>
+                    </ul>
+                </div>
+                
+                <div class="comparison-card">
+                    <h3>Dictionary Attack</h3>
+                    <ul>
+                        <li>Tries <strong>a curated list</strong> of likely passwords</li>
+                        <li>Example: "password", "123456", "football", "summer2025"</li>
+                        <li>Not guaranteed to find the password—only works if it's in the list</li>
+                        <li>Practical against real-world passwords (many are weak)</li>
+                        <li>Time is proportional to list size (millions, not billions)</li>
+                        <li>What Hydra with rockyou.txt performs</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="info-block">
+                <h4>Hybrid Approach (What Real Attackers Use)</h4>
+                <p>Sophisticated password cracking tools use rules that modify dictionary words in predictable ways. For example, from the base word "password", a rule set might generate:</p>
+                <ul>
+                    <li>Password (capitalize first letter)</li>
+                    <li>password123 (append common numbers)</li>
+                    <li>p@ssword (common leet-speak substitutions)</li>
+                    <li>password! (append special characters)</li>
+                    <li>password2025 (append current year)</li>
+                </ul>
+                <p>This dramatically increases the coverage of a dictionary attack while still being far more efficient than pure brute-force.</p>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Where This Attack is Used in Penetration Testing</h2>
+            
+            <div class="scenario-box">
+                <h3>Scenario: External Penetration Test</h3>
+                <p>Your firm is hired to test the external security posture of Acme Corporation. From open-source intelligence, you've gathered a list of employee email addresses (firstname.lastname@acme.com).</p>
+                
+                <p>You identify that Acme uses Microsoft 365 for email, and you note that their VPN portal is exposed at vpn.acme.com. Both require a username and password.</p>
+                
+                <p><strong>What you test (with written authorization):</strong></p>
+                <ol>
+                    <li>Use the email format to create a username list (e.g., john.smith, jane.doe)</li>
+                    <li>Attempt <strong>password spraying</strong>—a variation of dictionary attack where you try a small number of common passwords ("Spring2025!", "Password1") across <em>all</em> usernames. This avoids triggering account lockouts.</li>
+                    <li>If any account uses a weak password, you gain initial access.</li>
+                </ol>
+                
+                <p><strong>The penetration tester's finding might look like:</strong></p>
+                <div class="finding-report">
+                    <p><strong>Finding:</strong> Weak Password Policy Permits Credential Guessing</p>
+                    <p><strong>Risk Level:</strong> High</p>
+                    <p><strong>Description:</strong> During the assessment, a password spraying attack against the VPN portal successfully authenticated to the account of "bob.johnson@acme.com" using the password "Acme2025!". This account had not enrolled in multi-factor authentication.</p>
+                    <p><strong>Impact:</strong> An attacker who successfully guesses a valid set of credentials could gain remote access to the corporate network via VPN. From there, they could move laterally to other systems and potentially access sensitive data or deploy ransomware.</p>
+                    <p><strong>Recommendation:</strong> 1. Immediately enforce multi-factor authentication for all VPN and email access. 2. Implement a password policy that checks passwords against known breached password lists. 3. Consider implementing Azure AD Password Protection or similar tools to block common weak passwords.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-card ethics-section">
+            <h2><span class="section-marker warning">⚠</span> Defending Against Brute-Force Attacks</h2>
+            
+            <div class="ethics-content">
+                <h3>Three Essential Defenses Every Organization Should Implement</h3>
+                
+                <div class="defense-grid">
+                    <div class="defense-card">
+                        <h4>1. Account Lockout Policies</h4>
+                        <p><strong>What it does:</strong> After a certain number of failed login attempts (typically 3-5), the account is disabled for a period of time or until an administrator unlocks it.</p>
+                        <p><strong>Why it's effective:</strong> A brute-force attack that can only try 3 passwords before being locked out is effectively stopped. The attacker would need years to work through a wordlist.</p>
+                        <p><strong>Implementation notes:</strong> Be careful—an attacker can use this to deliberately lock out user accounts, causing a denial-of-service. Progressive delays (1 second delay after first failure, 2 seconds after second, etc.) can be a better approach for some scenarios.</p>
+                    </div>
+                    
+                    <div class="defense-card">
+                        <h4>2. Rate Limiting</h4>
+                        <p><strong>What it does:</strong> Limits how many login attempts can come from a single IP address or for a single account in a given time window.</p>
+                        <p><strong>Why it's effective:</strong> Hydra can send hundreds of attempts per second. If the server only accepts one attempt per second (or one per minute after failures), the attack becomes impractically slow.</p>
+                        <p><strong>Implementation notes:</strong> Sophisticated attackers use botnets with thousands of different IP addresses to bypass simple IP-based rate limiting. This is why rate limiting should be combined with other defenses.</p>
+                    </div>
+                    
+                    <div class="defense-card">
+                        <h4>3. Multi-Factor Authentication (MFA)</h4>
+                        <p><strong>What it does:</strong> Requires a second form of verification beyond the password—something you have (a phone or hardware token) or something you are (biometric).</p>
+                        <p><strong>Why it's effective:</strong> Even if Hydra correctly guesses the password "Summer2025!", the attacker cannot log in without also providing the 6-digit code from the user's authenticator app. This single control neutralizes credential-guessing attacks almost entirely.</p>
+                        <p><strong>Implementation notes:</strong> MFA should be mandatory for all remote access (VPN, email, admin portals) and strongly encouraged or required for all user accounts. The minor inconvenience to users is vastly outweighed by the security benefit.</p>
+                    </div>
+                </div>
+                
+                <h3>Additional Hardening Measures</h3>
+                <ul class="feature-list">
+                    <li><strong>Disable password authentication for SSH:</strong> Use cryptographic key pairs instead. A brute-force attack against a 2048-bit RSA key would take longer than the age of the universe.</li>
+                    <li><strong>Use CAPTCHA after failed attempts:</strong> This ensures a human is at the keyboard, not an automated script like Hydra.</li>
+                    <li><strong>Monitor and alert on failed login patterns:</strong> Security teams should receive alerts when a single source generates dozens of failed logins—this is almost certainly an attack.</li>
+                    <li><strong>Enforce strong password policies:</strong> Minimum length (12+ characters), complexity requirements, and checking new passwords against breach databases.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="interactive-section">
+            <h3><span class="section-marker">></span> Password Strength Simulator</h3>
+            <p>Type a password to see roughly how long a brute-force attack would take (assuming 1 billion guesses per second):</p>
+            
+            <div class="password-simulator">
+                <input type="text" id="passwordInput" placeholder="Enter a password..." class="password-input">
+                <div id="strengthResult" class="strength-result">
+                    <div class="strength-bar">
+                        <div id="strengthFill" class="strength-fill"></div>
+                    </div>
+                    <p id="strengthText">Enter a password to see estimated crack time</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p><span class="prompt-symbol">$</span> Built as a portfolio project • All content written from personal understanding and lab experience</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
