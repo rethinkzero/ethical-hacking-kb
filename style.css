@@ -1,47 +1,33 @@
 
 /* ===== CSS Variables & Theme Setup ===== */
 :root {
-    --bg-primary: #0a0e14;
-    --bg-secondary: #121720;
-    --bg-card: #1a1f2a;
-    --bg-elevated: #222836;
-    --text-primary: #e4e9f0;
-    --text-secondary: #a6b1c2;
-    --text-muted: #6e7a8f;
-    --accent-primary: #00d4aa;
-    --accent-secondary: #5e9cff;
-    --accent-warning: #ffb347;
-    --accent-danger: #ff6b6b;
-    --border-color: #2a3140;
-    --terminal-green: #00ff9d;
-    --terminal-blue: #5e9cff;
-    --code-bg: #0d1117;
-    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    --glow-effect: 0 0 20px rgba(0, 212, 170, 0.15);
-    
-    /* Light theme variables (will be toggled via JS) */
-    --bg-primary-light: #f5f7fa;
-    --bg-secondary-light: #e8ecf2;
-    --bg-card-light: #ffffff;
-    --text-primary-light: #1a1f2a;
-    --text-secondary-light: #4a5568;
-    --border-color-light: #d1d9e6;
+    --bg-primary: #0f1419;
+    --bg-secondary: #161c23;
+    --bg-card: #1a222a;
+    --bg-elevated: #1e2730;
+    --text-primary: #edf2f7;
+    --text-secondary: #b7c5d6;
+    --text-muted: #7e93ab;
+    --accent-primary: #3b82f6;
+    --accent-secondary: #60a5fa;
+    --accent-warning: #f59e0b;
+    --accent-danger: #ef4444;
+    --border-color: #2d3a4a;
+    --terminal-accent: #60a5fa;
+    --code-bg: #0d131a;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --glow-effect: 0 0 0 1px rgba(59, 130, 246, 0.1);
 }
 
-/* Light theme class applied by JavaScript */
-body.light-theme {
-    --bg-primary: var(--bg-primary-light);
-    --bg-secondary: var(--bg-secondary-light);
-    --bg-card: var(--bg-card-light);
-    --bg-elevated: #f0f3f8;
-    --text-primary: var(--text-primary-light);
-    --text-secondary: var(--text-secondary-light);
-    --text-muted: #718096;
-    --border-color: var(--border-color-light);
-    --code-bg: #1a202c;
-    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    --glow-effect: 0 0 20px rgba(0, 180, 140, 0.1);
+/* Remove all light theme variables and related code - delete lines through light-theme class */
+
+/* ===== Base Styles ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
 
 /* ===== Base Styles ===== */
 * {
@@ -57,24 +43,10 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     position: relative;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .terminal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 0.02) 0px,
-        rgba(0, 255, 0, 0.01) 1px,
-        transparent 2px
-    );
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.3;
+    display: none;
 }
 
 body.light-theme .terminal-overlay {
@@ -139,25 +111,23 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(10px);
-    background-color: rgba(18, 23, 32, 0.95);
-}
-
-body.light-theme .navbar {
-    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    background-color: rgba(22, 28, 35, 0.98);
 }
 
 .nav-brand {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--accent-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
 }
 
-.prompt-symbol {
-    color: var(--terminal-green);
-    margin-right: 0.3rem;
+.nav-brand .prompt-symbol {
+    display: none;
 }
+
+/* Remove theme-toggle button styles entirely */
 
 .nav-menu {
     display: flex;
@@ -253,31 +223,30 @@ body.light-theme .navbar {
     margin-bottom: 2rem;
 }
 
+/* Remove typewriter cursor animation */
 .typewriter-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.25rem;
     margin-bottom: 1rem;
 }
 
 .typewriter {
     font-size: 2.8rem;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--terminal-green);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--text-primary);
     margin-bottom: 0;
+    letter-spacing: -0.02em;
 }
 
 .cursor {
-    font-size: 2.5rem;
-    color: var(--terminal-green);
-    animation: blink 1s infinite;
+    display: none;
 }
 
 @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
 }
+
 
 .hero-subtitle {
     font-size: 1.2rem;
@@ -366,8 +335,8 @@ body.light-theme .navbar {
 
 /* ===== Highlight Box ===== */
 .highlight-box {
-    background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(94, 156, 255, 0.1));
-    border: 1px solid var(--accent-primary);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1.5rem;
     margin: 1.5rem 0;
@@ -429,28 +398,29 @@ body.light-theme .navbar {
 }
 
 .terminal-header {
-    background-color: #1e2430;
-    padding: 0.6rem 1rem;
+    background-color: var(--bg-elevated);
+    padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .terminal-dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
 }
 
-.terminal-dot.red { background-color: #ff5f56; }
-.terminal-dot.yellow { background-color: #ffbd2e; }
-.terminal-dot.green { background-color: #27c93f; }
+.terminal-dot.red { background-color: #ef4444; }
+.terminal-dot.yellow { background-color: #f59e0b; }
+.terminal-dot.green { background-color: #10b981; }
 
 .terminal-title {
-    margin-left: 0.5rem;
+    margin-left: 0.25rem;
     color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
 }
 
 .terminal-body {
@@ -468,7 +438,7 @@ body.light-theme .navbar {
 }
 
 .prompt {
-    color: var(--terminal-green);
+    color: var(--accent-secondary);
     margin-right: 0.75rem;
 }
 
@@ -684,7 +654,9 @@ body.light-theme .navbar {
 }
 
 .section-marker.warning {
-    color: var(--accent-warning);
+    color: var(--accent-primary);
+    margin-right: 0.5rem;
+    font-weight: 400;
 }
 
 .ethics-content h3 {
@@ -956,8 +928,7 @@ footer {
     border-top: 1px solid var(--border-color);
     margin-top: 3rem;
     color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 /* ===== Responsive Design ===== */
