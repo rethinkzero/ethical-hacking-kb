@@ -1,1 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydra - Ethical Hacking KB</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="terminal-overlay"></div>
+    
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <span class="prompt-symbol">></span>_ethical_hacking_kb
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">~/home</a></li>
+                <li><a href="cli.html" class="nav-link">~/cli</a></li>
+                <li><a href="ssh.html" class="nav-link">~/ssh</a></li>
+                <li><a href="nmap.html" class="nav-link">~/nmap</a></li>
+                <li><a href="wireshark.html" class="nav-link">~/wireshark</a></li>
+                <li><a href="hydra.html" class="nav-link active">~/hydra</a></li>
+                <li><a href="bruteforce.html" class="nav-link">~/bruteforce</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                <span class="toggle-icon">🌙</span>
+            </button>
+        </nav>
+    </header>
 
+    <main class="container">
+        <div class="page-header">
+            <h1><span class="prompt-symbol">$</span> hydra <span class="header-dash">—</span> credential brute-force tool</h1>
+            <p class="page-description">Automated password testing for authorized security assessments</p>
+        </div>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> What Hydra Does (and Why We Use It Ethically)</h2>
+            
+            <div class="definition-box">
+                <p>Hydra is a tool that automates the process of trying many username and password combinations against a network service. Instead of a human typing "admin / password123" then "admin / letmein" and so on, Hydra works through lists of thousands of credentials at machine speed.</p>
+                
+                <p>Authorized security testers use Hydra to answer a critical question: <strong>"How easily could an attacker guess valid credentials on this system?"</strong> If Hydra finds a weak password in 30 seconds, a real attacker could do the same. The difference is that I report the finding so the organization can fix it—the attacker would use it to break in.</p>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Understanding Wordlists</h2>
+            
+            <div class="info-block">
+                <p>A wordlist is simply a text file containing potential passwords, one per line. Hydra reads this file and tries each line as a password (or username, depending on configuration).</p>
+                
+                <p>In our lab, we used the famous "rockyou.txt" wordlist. This list contains over 14 million real passwords that were leaked from the RockYou social networking site breach in 2009. It's a sobering reminder that the passwords people actually use—"password", "123456", "iloveyou"—are far from random and secure.</p>
+                
+                <div class="wordlist-example">
+                    <h4>Sample from rockyou.txt</h4>
+                    <pre>123456
+password
+12345678
+qwerty
+abc123
+monkey
+letmein
+dragon
+111111
+baseball
+iloveyou
+trustno1
+sunshine
+master
+welcome
+shadow
+ashley
+football
+jesus
+michael
+ninja
+mustang</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-card">
+            <h2><span class="section-marker">#</span> Lab Command: Testing SSH Credentials</h2>
+            
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-dot red"></span>
+                    <span class="terminal-dot yellow"></span>
+                    <span class="terminal-dot green"></span>
+                    <span class="terminal-title">student@kali:~/labs</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="command-line">
+                        <span class="prompt">$</span> 
+                        <span class="command-text">hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.100</span>
+                    </div>
+                    <div class="command-output">
+Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2025-12-15 11:23:45
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344399 login tries (l:1/p:14344399), ~896525 tries per task
+[DATA] attacking ssh://192.168.1.100:22/
+[<span class="output-highlight">22</span>][ssh] host: 192.168.1.100   login: admin   password: password1
+[STATUS] attack finished for 192.168.1.100 (waiting for children to complete)
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2025-12-15 11:24:18
+                    </div>
+                </div>
+            </div>
+
+            <div class="explanation-box">
+                <h4>Breaking Down Every Flag in Plain English</h4>
+                <table class="command-anatomy">
+                    <tr>
+                        <td class="command-part"><code>hydra</code></td>
+                        <td>The name of the tool. In Greek mythology, the Hydra grows two heads for every one cut off—fitting for a tool that relentlessly tries credentials.</td>
+                    </tr>
+                    <tr>
+                        <td class="command-part"><code>-l admin</code></td>
+                        <td>The lowercase "L" flag specifies a single username to test. Here, I'm only testing the "admin" account. If I wanted to test multiple usernames, I'd use a capital <code>-L</code> followed by a file containing a list of usernames.</td>
+                    </tr>
+                    <tr>
+                        <td class="command-part"><code>-P rockyou.txt</code></td>
+                        <td>The capital "P" flag tells Hydra to use a file containing passwords. Each line in rockyou.txt will be tried as a password for the "admin" user.</td>
+                    </tr>
+                    <tr>
+                        <td class="command-part"><code>ssh://192.168.1.100</code></td>
+                        <td>This specifies three things: the protocol to attack (SSH), and the target IP address. Hydra knows SSH uses port 22 by default.</td>
+                    </tr>
+                </table>
+                
+                <h4>What the Output Tells Me</h4>
+                <p>Hydra found a valid credential pair: <code>admin / password1</code>. The <code>[22]</code> indicates this was found on port 22 (SSH). The whole process took about 33 seconds—that's how long it took to try passwords until hitting the correct one. If "password1" had been the 14 millionth entry in the list, it would have taken much longer.</p>
+            </div>
+        </section>
+
+        <section class="content-card ethics-section">
+            <h2><span class="section-marker warning">⚠</span> Ethics: The Legal and Moral Boundary</h2>
+            
+            <div class="ethics-content">
+                <h3>Why Running Hydra Without Permission is Illegal</h3>
+                <p>This is not a gray area. Running Hydra against any system you do not own or have explicit written permission to test is a crime. Period.</p>
+                
+                <p>In the United States, this falls under the Computer Fraud and Abuse Act (CFAA), which makes it a federal crime to "intentionally access a computer without authorization." Attempting to guess passwords is clearly "accessing a computer." Even if you don't succeed, the attempt itself is illegal.</p>
+                
+                <p>In the European Union and UK, similar laws exist under computer misuse legislation. The consequences can include:</p>
+                <ul>
+                    <li>Felony charges and a criminal record</li>
+                    <li>Fines reaching hundreds of thousands of dollars/euros</li>
+                    <li>Prison sentences (up to 10+ years depending on severity)</li>
+                    <li>Civil lawsuits from the targeted organization</li>
+                    <li>Permanent ban from working in cybersecurity or IT</li>
+                </ul>
+                
+                <p><strong>Real-world example:</strong> In 2016, a security researcher was convicted under the CFAA for accessing a newspaper's server without authorization—even though he claimed he was just testing for vulnerabilities and reported what he found. The lesson: good intentions don't make unauthorized access legal.</p>
+                
+                <h3>How Organizations Defend Against Brute-Force Attacks</h3>
+                <p>Since Hydra and similar tools exist, responsible organizations implement defenses:</p>
+                
+                <div class="defense-grid">
+                    <div class="defense-card">
+                        <h4>Account Lockout Policies</h4>
+                        <p>After a set number of failed login attempts (typically 3-5), the account is temporarily or permanently locked. This makes brute-forcing impractical—after five guesses, you're locked out for 30 minutes.</p>
+                        <p><strong>Downside:</strong> An attacker can intentionally trigger lockouts to create a denial-of-service condition for legitimate users.</p>
+                    </div>
+                    
+                    <div class="defense-card">
+                        <h4>Rate Limiting</h4>
+                        <p>The server artificially slows down login attempts or limits how many can come from a single IP address in a given time period. Even if Hydra can send 1000 requests per second, the server might only accept 10 per minute from that source.</p>
+                        <p><strong>Downside:</strong> Distributed attacks using many different IP addresses can bypass simple rate limiting.</p>
+                    </div>
+                    
+                    <div class="defense-card">
+                        <h4>Multi-Factor Authentication (MFA)</h4>
+                        <p>Even if Hydra finds the correct password, it's useless without the second factor—a code from an authenticator app, a hardware token, or a biometric verification.</p>
+                        <p><strong>This is the single most effective defense.</strong> A stolen or guessed password alone is insufficient for access.</p>
+                    </div>
+                    
+                    <div class="defense-card">
+                        <h4>SSH Key Authentication</h4>
+                        <p>Instead of allowing password-based SSH logins, the server only accepts cryptographic key pairs. A brute-force attack against a private key is computationally infeasible.</p>
+                        <p><strong>Best practice:</strong> Disable password authentication for SSH entirely after setting up key-based access.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="interactive-section">
+            <h3><span class="section-marker">></span> Hydra Command Builder</h3>
+            <p>Select options to build a Hydra command and understand what it does:</p>
+            
+            <div class="command-builder hydra-builder">
+                <div class="builder-row">
+                    <label>Target Protocol:</label>
+                    <select id="hydraProtocol">
+                        <option value="ssh">SSH (port 22)</option>
+                        <option value="ftp">FTP (port 21)</option>
+                        <option value="http-post-form">HTTP POST Form</option>
+                    </select>
+                </div>
+                <div class="builder-row">
+                    <label>Username Source:</label>
+                    <select id="hydraUserSource">
+                        <option value="single">Single username (-l)</option>
+                        <option value="list">Username list (-L)</option>
+                    </select>
+                </div>
+                
+                <div class="generated-command">
+                    <span class="prompt">$</span> <span id="hydraCommand">hydra -l admin -P wordlist.txt ssh://target</span>
+                </div>
+                
+                <div id="hydraExplanation" class="command-explanation">
+                    Tests the username 'admin' against SSH using passwords from wordlist.txt
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p><span class="prompt-symbol">$</span> Built as a portfolio project • All content written from personal understanding and lab experience</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
