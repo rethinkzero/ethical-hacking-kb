@@ -28,14 +28,6 @@
     box-sizing: border-box;
 }
 
-
-/* ===== Base Styles ===== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--bg-primary);
@@ -49,9 +41,7 @@ body {
     display: none;
 }
 
-body.light-theme .terminal-overlay {
-    opacity: 0.05;
-}
+
 
 /* ===== Typography ===== */
 h1, h2, h3, h4, h5, h6 {
@@ -454,7 +444,7 @@ a:hover {
 }
 
 .output-highlight {
-    color: var(--terminal-green);
+    color: var(--accent-secondary);
     font-weight: 600;
 }
 
@@ -933,22 +923,6 @@ footer {
 }
 
 /* ===== Responsive Design ===== */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1rem;
-    }
-    
-    .nav-menu {
-        justify-content: center;
-    }
-    
-    .nav-link {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.8rem;
-    }
-    
     .container {
         padding: 1rem;
     }
@@ -1025,8 +999,4 @@ footer {
         font-size: 0.7rem;
     }
     
-    .theme-toggle {
-        padding: 0.3rem 0.8rem;
-        font-size: 1rem;
-    }
 }
