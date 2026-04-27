@@ -3,7 +3,7 @@ localStorage.removeItem('theme');
 // ===== Typewriter Effect (Homepage) =====
 const typewriterElement = document.getElementById('typewriterText');
 if (typewriterElement) {
-    const text = 'Ethical Hacking Knowledge Repository';
+    const text = 'Ethical Hacking';
     let index = 0;
     
     function typeWriter() {
