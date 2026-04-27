@@ -95,23 +95,25 @@ a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1.5rem 2rem 0.75rem;
-    background-color: var(--bg-secondary);
+    padding: 1rem 2rem 0.75rem;
+    background-color: rgba(22, 28, 35, 0.95);
     border-bottom: 1px solid var(--border-color);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
-    backdrop-filter: blur(8px);
-    background-color: rgba(22, 28, 35, 0.98);
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .nav-brand {
     font-family: 'Inter', sans-serif;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: var(--text-primary);
     letter-spacing: -0.01em;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     text-align: center;
 }
 
@@ -126,13 +128,14 @@ a:hover {
 
 .nav-link {
     display: block;
-    padding: 0.4rem 0;
+    padding: 0.35rem 0;
     font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--text-secondary);
     transition: all 0.2s ease;
     border-bottom: 2px solid transparent;
+    white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -162,13 +165,17 @@ a:hover {
     .nav-link {
         font-size: 0.85rem;
     }
+
+    .container {
+        padding: 105px 1rem 1rem 1rem;
+    }
 }
 
 /* ===== Layout Containers ===== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 120px 2rem 2rem 2rem;
     position: relative;
     z-index: 2;
 }
@@ -923,9 +930,6 @@ footer {
 }
 
 /* ===== Responsive Design ===== */
-    .container {
-        padding: 1rem;
-    }
     
     h1 {
         font-size: 1.8rem;
