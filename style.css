@@ -52,7 +52,8 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     font-size: 2.5rem;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.02em;
 }
 
 h2 {
@@ -930,13 +931,15 @@ footer {
 }
 
 /* ===== Responsive Design ===== */
-    
+@media (max-width: 768px) {
     h1 {
         font-size: 1.8rem;
+        font-family: 'Inter', sans-serif;
     }
     
     h2 {
         font-size: 1.5rem;
+        font-family: 'Inter', sans-serif;
     }
     
     .comparison-grid {
@@ -952,7 +955,7 @@ footer {
     }
     
     .typewriter {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
     
     .packet-header {
@@ -1002,5 +1005,4 @@ footer {
         padding: 0.25rem 0.5rem;
         font-size: 0.7rem;
     }
-    
 }
