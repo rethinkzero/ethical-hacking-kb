@@ -1,25 +1,4 @@
-// ===== Theme Toggle (Dark/Light Mode) =====
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
-
-// Check for saved theme preference
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'light') {
-    body.classList.add('light-theme');
-    updateToggleIcon(true);
-}
-
-themeToggle.addEventListener('click', () => {
-    body.classList.toggle('light-theme');
-    const isLight = body.classList.contains('light-theme');
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    updateToggleIcon(isLight);
-});
-
-function updateToggleIcon(isLight) {
-    const icon = themeToggle.querySelector('.toggle-icon');
-    icon.textContent = isLight ? '☀️' : '🌙';
-}
+localStorage.removeItem('theme');
 
 // ===== Typewriter Effect (Homepage) =====
 const typewriterElement = document.getElementById('typewriterText');
